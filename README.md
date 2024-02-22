@@ -1,5 +1,2 @@
-# Code market
+# Des morceaux de code réutilisable
 
-```php
-Des morceaux de code réutilisable et réutilisé
-```
