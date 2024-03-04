@@ -9,6 +9,7 @@ Ctrl+Shift+P, F1 Show Command Palette
 Ctrl+P Go to File...
 
 Ctrl+Shift+E Show Explorer / Toggle focus
+Ctrl+Shift+G Show Git / Toggle focus
 Ctrl+B Toggle Sidebar visibility
 Ctrl+j Toggle Terminal
 Ctrl+Shift+F Toggle Search
