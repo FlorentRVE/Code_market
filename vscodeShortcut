@@ -1,0 +1,30 @@
+General
+
+Ctrl+Shift+N New window/instance
+Ctrl+Shift+W Close window/instance
+
+Ctrl+, User Settings
+Ctrl+Shift+P, F1 Show Command Palette
+Ctrl+P Go to File...
+
+Ctrl+Shift+E Show Explorer / Toggle focus
+Ctrl+B Toggle Sidebar visibility
+Ctrl+j Toggle Terminal
+Ctrl+Shift+F Toggle Search
+
+Alt+ ↑ / ↓ Move line up/down
+Ctrl+Enter Insert line below
+Ctrl+Shift+Enter Insert line above
+Ctrl+Shift+K Delete line
+
+Search and replace
+Ctrl+F Find
+Ctrl+H Replace
+F3 / Shift+F3 Find next/previous
+Alt+Enter Select all occurences of Find match
+
+Multi-cursor and selection
+Alt+Click Insert cursor
+Ctrl+Alt+ ↑ / ↓ Insert cursor above / below
+Ctrl+U Undo last cursor operation
+Ctrl+L Select current line
