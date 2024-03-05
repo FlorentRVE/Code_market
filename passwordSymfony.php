@@ -1,4 +1,5 @@
 /////////// Exemple gestion mot de passe double avec toggle TWIG //////////
+
 $builder->add('plainPassword', RepeatedType::class, [
     'type' => PasswordType::class,
     'mapped' => false,
