@@ -28,6 +28,57 @@ public function editPassword(Request $request, User $user, EntityManagerInterfac
     ]);
 }
 
+/////////////////// TEMPLATE TWIG PASSWORD /////////////////
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier le mot de passe de l'utilisateur{% endblock %}
+
+{% block body %}
+    <div class="bg-sky-200 min-h-screen">
+
+        <div class="flex flex-col p-4 justify-center items-center bg-slate-50">
+
+            <h1 class="text-3xl font-semibold text-center">Modifier le mot de passe</h1>
+
+        </div>
+
+        <div class="bg-slate-800 p-7 mx-auto my-6 rounded-xl w-4/5 shadow-xl">
+
+
+            <div class="w-11/12 mx-auto flex flex-col">
+                
+                {{ form_start(form) }}
+
+                    <div class="mb-8 flex flex-col">
+                        {{ form_label(form.plainPassword.first, 'Mot de passe', {'label_attr': {'class': 'text-slate-100 uppercase font-semibold mb-2'}}) }}
+                        {{ form_widget(form.plainPassword.first, {'attr': {'class': 'p-2 rounded-lg'}}) }}
+
+                        <div class="text-red-500 font-semibold mb-2">
+                            {{ form_errors(form.plainPassword.first) }}
+                        </div>
+                    </div>
+
+                    <div class="mb-8 flex flex-col">
+                        {{ form_label(form.plainPassword.second, 'Confirmation du mot de passe', {'label_attr': {'class': 'text-slate-100 uppercase font-semibold mb-2'}}) }}
+                        {{ form_widget(form.plainPassword.second, {'attr': {'class': 'p-2 rounded-lg'}}) }}
+                    </div>
+
+                    <div class="flex flex-col">
+                        <button type="submit" class="w-full btn bg-green-500 rounded-2xl text-center hover:brightness-125 shadow-lg font-bold px-7 py-3 text-lg md:w-1/3 md:self-end">{{ button_label|default('Modifier le mot de passe') }}</button>
+                    </div>
+                    
+                {{ form_end(form) }}
+            </div>
+        </div>
+
+        <div class="flex flex-col w-4/5 mx-auto">
+
+            <a href="{{ path('app_user_index') }}"  class="w-full bg-sky-800 text-slate-50 rounded-2xl text-center px-5 py-3 hover:brightness-125 shadow-lg font-semibold md:w-1/3">Retour à la liste</a>
+        </div>
+    </div>
+{% endblock %}
+
 /////////// Exemple gestion mot de passe double avec toggle TWIG //////////
 
 $builder->add('plainPassword', RepeatedType::class, [
