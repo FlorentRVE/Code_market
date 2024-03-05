@@ -1,5 +1,9 @@
 <?php
 
+Prérequis:
+composer require symfony/stimulus-bundle
+composer require symfony/ux-toggle-password
+
 ////////////// CONTROLLER EDIT PASSWORD //////////////////////
 
 #[Route('/{id}/edit_password', name: 'app_userPassword_edit', methods: ['GET', 'POST'])]
@@ -77,9 +81,9 @@ public function editPassword(Request $request, User $user, EntityManagerInterfac
             <a href="{{ path('app_user_index') }}"  class="w-full bg-sky-800 text-slate-50 rounded-2xl text-center px-5 py-3 hover:brightness-125 shadow-lg font-semibold md:w-1/3">Retour à la liste</a>
         </div>
     </div>
-{% endblock %}
+/{% endblock %}
 
-/////////// Exemple gestion mot de passe double avec toggle TWIG //////////
+/////////// PASSWORD FORM TYPE //////////
 
 <?php
 
