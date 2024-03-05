@@ -81,7 +81,7 @@ public function editPassword(Request $request, User $user, EntityManagerInterfac
             <a href="{{ path('app_user_index') }}"  class="w-full bg-sky-800 text-slate-50 rounded-2xl text-center px-5 py-3 hover:brightness-125 shadow-lg font-semibold md:w-1/3">Retour à la liste</a>
         </div>
     </div>
-/{% endblock %}
+{% endblock %}
 
 /////////// PASSWORD FORM TYPE //////////
 
