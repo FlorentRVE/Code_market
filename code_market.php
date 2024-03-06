@@ -55,3 +55,9 @@ public function getQuestionsFromSearch($searchTerm) {
     </div>
 {% endfor %}
 
+////////////// Exemple récup url avec paramètre ////////////// 
+<a href="{{ path('app_saisi_index', {'search': app.request.query.get('search'), 'sort': app.request.query.get('sort') == 'ASC' ? 'DESC' : 'ASC', 'by': 'date'}) }}">Date</a>
+
+//////////////
+
+
