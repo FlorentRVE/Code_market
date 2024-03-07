@@ -30,3 +30,4 @@ Alt+Click Insert cursor
 Ctrl+Alt+ ↑ / ↓ Insert cursor above / below
 Ctrl+U Undo last cursor operation
 Ctrl+L Select current line
+Ctrl+SHIFT+L Select all occurence of selected words
