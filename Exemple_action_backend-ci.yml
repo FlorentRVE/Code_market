@@ -1,0 +1,68 @@
+# Workflow d'integrations de la parties backend ( le fichier se trouve dans le dossier .github/workflows)
+
+name: Backend
+
+on:
+  push:
+    branches: [ "Feature/Test" ]
+  pull_request:
+    branches: [ "Feature/Test" ]
+
+permissions:
+  contents: read
+
+jobs:
+  symfony-tests:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        shell: bash
+        working-directory: backend/lakaz
+
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: false
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: lakaz
+        ports:
+          - 3306/tcp
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: ['8.2.4']
+    
+    steps:
+
+    - name: Setup PHP      
+      uses: shivammathur/setup-php@2cb9b829437ee246e9b3cac53555a39208ca6d28
+      with:
+        php-version: '8.2.4'
+
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+          
+    - name: Install Dependencies
+      run:
+        composer install --no-interaction --prefer-dist
+
+    - name: Prepare Symfony Environment for Tests
+      run: |
+        cp .env.test .env
+        composer require --dev symfony/orm-pack
+        php bin/console doctrine:database:create --env=test
+        php bin/console doctrine:schema:create --env=test
+        php bin/console doctrine:fixtures:load --env=test --no-interaction
+      env:
+          DATABASE_URL: mysql://root:root@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/lakaz
+
+    - name: Run PHPUnit Tests
+      run:
+        php bin/phpunit
+      env:
+          DATABASE_URL: mysql://root:root@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/lakaz
+
+
