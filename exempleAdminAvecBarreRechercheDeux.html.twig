@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion utilisateur{% endblock %}
+
+{% block body %}
+    {# ======================== Sidebar ========================== #}
+    <sidebar class="bg-gray-800 fixed left-0 top-0 h-screen">
+        <div class="flex flex-col items-center w-[20vw]">
+
+            <div class="flex flex-col items-center gap-3 pt-4 font-semibold text-[1.5vh] lg:text-[2vh] mt-[20vh]">
+
+                <ul class="list-reset flex flex-row md:flex-col pt-3 md:py-3 px-1 md:px-2 text-center md:text-left gap-6">
+                    <li class="mr-3 flex-1">
+                        <a href="{{ path('app_register')}}" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline border-b-2 border-gray-800 hover:border-pink-500 text-lg">
+                            👤 Nouvel utilisateur
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </sidebar>
+
+    {# ================ NAVBAR ===================== #}
+    <nav class="flex justify-between items-center px-2 lg:px-6 py-3 bg-gray-800 fixed top-0 w-full">
+
+        <div class="">
+            <a href="{{ path('app_roulement_index') }}" class="text-5xl text-red-500">🗃️</a>
+        </div>
+
+
+        <form action="#" method="get" class="w-2/6">
+            <label class="input input-bordered flex items-center gap-2">
+                <input type="text" id="search" name="search" value="{{ searchTerm }}" class="grow" placeholder="Rechercher" />
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70"><path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" /></svg>
+            </label>
+        </form>
+
+        <div class="dropdown dropdown-end">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+                <div class="w-10 rounded-full">
+                    <img alt="Tailwind CSS Navbar component" src="https://static.vecteezy.com/system/resources/previews/021/548/095/non_2x/default-profile-picture-avatar-user-avatar-icon-person-icon-head-icon-profile-picture-icons-default-anonymous-user-male-and-female-businessman-photo-placeholder-social-network-avatar-portrait-free-vector.jpg" />
+                </div>
+            </div>
+
+            <ul tabindex="0" class="z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
+                <li><a>Se déconnecter</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    {# ==================== Content ======================= #}
+    <content>
+        <div class="ml-[20vw] mt-14 bg-gray-800 min-h-screen">
+        
+            <div class="flex flex-col justify-center items-center">
+
+                <div class="pt-3 w-full">
+                    <div class="bg-gradient-to-r from-blue-900 to-gray-800 p-4 shadow text-2xl text-white">
+                        <h1 class="font-bold p-2">Utilisateurs</h1>
+                    </div>
+                </div>
+
+
+                <div class="bg-sky-300 w-full py-6 px-3">
+
+                    <div class="flex flex-col justify-center items-center w-full">
+                        <div class="text-slate-950 font-bold text-xl mb-5">{{ knp_pagination_render(users) }}</div>
+                    </div>
+
+                    <table class="w-[90%] mx-auto my-0">
+                        <tbody>
+                        {% for user in users %}
+                            <tr class="border-2 border-slate-900">
+                                <td class="border-2 border-slate-900 w-[65%] bg-slate-50 text-center font-semibold">{{ user.username }}</td>
+
+                                <td class="border-2 border-slate-900 bg-slate-950 flex flex-col items-center">
+
+                                    <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="bg-yellow-400 text-center px-3  hover:brightness-125 rounded-lg font-semibold">Modifier</a>
+                                    <a href="{{ path('app_userPassword_edit', {'id': user.id}) }}" class="text-slate-100 text-center px-3  hover:brightness-125 hover:text-orange-400 rounded-lg font-semibold">Changer mot de passe</a>
+                                    <form method="post" action="{{ path('app_user_delete', {'id': user.id}) }}" onsubmit="return confirm('Voulez vous vraiment supprimer cet utilisateur ?');">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+                                        <button class="text-red-700  text-center px-3  hover:brightness-125 rounded-lg font-semibold">Supprimer</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr class="border-2 border-slate-900 bg-slate-50 text-2xl text-center">
+                                <td colspan="3">Aucun utilisateur ne correspond à votre recherche ...</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>                
+            </div>
+        </div>
+    </content>
+{% endblock %}
