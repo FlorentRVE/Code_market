@@ -1,19 +1,28 @@
 // ============================ Fonction ========================
 
-// ============ API ==========
-const API_BASE_URL =
-  "https://api.themoviedb.org/3/search/movie?api_key=26a145d058cf4d1b17cbf084ddebedec&language=fr-FR&query=";
-const API_GENRE_URL =
-  "https://api.themoviedb.org/3/genre/movie/list?api_key=26a145d058cf4d1b17cbf084ddebedec&language=fr-FR";
+//============ URL
+const API_BASE_URL = "https://exemple.url";
 
-// Récupérer les films selon recherche
+
+//=========== Requete GET selon recherche
 export const getData = async (searchTerms: string) => {
   return await fetch(API_BASE_URL + searchTerms).then((response) =>
     response.json()
   );
 };
 
-// Récupérer tous les genre
-export const getGenre = async () => {
-  return await fetch(API_GENRE_URL).then((response) => response.json());
+//===========Requete POST
+let headersList = {
+    Accept: "*/*",
+    "Content-Type": "application/json",
+};
+
+export const postData = async (info: Object) => {
+  await fetch(API_BASE_URL, {
+    method: "POST",
+    body: JSON.stringify(info),
+    headers: headersList,
+  })
+  .then((res) => res.json())
+  .then((data) => console.log(data));
 };
