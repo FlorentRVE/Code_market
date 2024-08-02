@@ -1,8 +1,0 @@
-# Build image dans le dossier actuel en utilisant le Dockerfile spécifié et en lui donnant le nom [nom_image]
-docker build . -f ./docker/Dockerfile -t [nom_image]
-
-# Crée container à partir de l'image [id_image ou nom_image] et ouvrir un shell bash dans celui-ci 
-docker run -it [id_image] bash
-
-# Créer les containers en utilisant le fichier docker-compose spécifié 
-docker-compose -f ./docker/docker-compose.yml up
