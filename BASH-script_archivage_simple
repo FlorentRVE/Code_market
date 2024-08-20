@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Configuration des variables
+DB_NAME="nom_de_la_base_de_donnée"
+DB_USER="nom_utilisateur_bdd"
+DB_PASSWORD="mot_de_passe_utilisateur_bdd"
+BACKUP_DIR="chemin/vers/le/dossier/de/backup"
+DATE=$(date +\%d-\%m-\%Y)
+
+# Commande de sauvegarde
+mysqldump -u $DB_USER -p$DB_PASSWORD $DB_NAME > $BACKUP_DIR/$DB_NAME-$DATE.sql
+
+
+# Vérification de la réussite de la sauvegarde
+if [ $? -eq 0 ]; then
+  echo "Sauvegarde de la base de données réussie"
+else
+  echo "Erreur lors de la sauvegarde de la base de données" >&2
+fi
