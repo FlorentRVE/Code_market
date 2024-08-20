@@ -1,0 +1,64 @@
+#!/bin/bash
+
+# Configuration des variables
+DB_NAME="nom_de_la_base_de_donnée"
+DB_USER="nom_utilisateur_bdd"
+DB_PASSWORD="mot_de_passe_utilisateur_bdd"
+BACKUP_DIR="chemin/vers/le/dossier/de/backup"
+DATE=$(date +\%d-\%m-\%Y)
+ARCHIVE_DIR="chemin/vers/le/dossier/de/archivage"
+
+# Vider le dossier backup	
+rm -rf "$BACKUP_DIR"/*
+
+# Commande de sauvegarde backup
+mysqldump -u $DB_USER -p$DB_PASSWORD $DB_NAME > $BACKUP_DIR/$DB_NAME-$DATE.sql
+
+# Commande de sauvegarde archivage en choisissant table à archiver
+tables=("table1" "table2" "table3")
+mkdir -p $ARCHIVE_DIR/$DB_NAME-$DATE
+
+i=(0)
+for table in "${tables[@]}"; do
+  mysql -u $DB_USER -p$DB_PASSWORD $DB_NAME -e "SELECT * FROM $table" -B | sed "s/'/\'/;s/\t/\",\"/g;s/^/\"/;s/$/\"/;s/\n//g" > $ARCHIVE_DIR/$DB_NAME-$DATE/$table.csv
+  i=$((i+1))
+done
+
+
+# Vérification de la réussite de la sauvegarde
+if [ $? -eq 0 ]; then
+  echo "Sauvegarde de la base de données réussie"
+else
+  echo "Erreur lors de la sauvegarde de la base de données" >&2
+  exit 1
+fi
+
+# Archivage de la sauvegarde
+tar -czf $ARCHIVE_DIR/$DB_NAME-$DATE.tar.gz -C $ARCHIVE_DIR $DB_NAME-$DATE
+
+# Vérification de la réussite de l'archivage
+if [ $? -eq 0 ]; then
+  echo "Archivage de la sauvegarde réussi"
+  # Suppression de l'ancien fichier de sauvegarde après archivage
+  rm $ARCHIVE_DIR/$DB_NAME-$DATE
+else
+  echo "Erreur lors de l'archivage de la sauvegarde" >&2
+  exit 1
+fi
+
+# Commandes de nettoyage de la base de données
+tables=("table1" "table2" "table3")
+
+for table in "${tables[@]}"; do
+    mysql -u $DB_USER -p$DB_PASSWORD $DB_NAME -e "SET FOREIGN_KEY_CHECKS = 0; TRUNCATE TABLE $table; SET FOREIGN_KEY_CHECKS = 1;"
+done
+
+# Vérification de la réussite du nettoyage
+if [ $? -eq 0 ]; then
+  echo "Nettoyage de la base de données réussi"
+else
+  echo "Erreur lors du nettoyage de la base de données" >&2
+  exit 1
+fi
+
+echo "Opérations de sauvegarde, d'archivage et de nettoyage terminées avec succès"
